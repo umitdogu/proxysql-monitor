@@ -3190,7 +3190,13 @@ class ProxySQLMonitor:
             if self.current_page == 0:  # Connections page
                 footer += f" | Tab: sub-pages | j/k: scroll | g/G: top/bottom | u/d: page | [{self.connections_subpages[self.current_connections_subpage]}]"
             elif self.current_page == 1:  # Runtime Configuration page
-                footer += f" | Tab: sub-pages | j/k: scroll | g/G: top/bottom | u/d: page | [{self.runtime_subpages[self.current_runtime_subpage]}]"
+                # Add 'c' hint for Rules and Backends sub-pages
+                if self.current_runtime_subpage == 1:  # Rules
+                    footer += f" | Tab: sub-pages | j/k: scroll | g/G: top/bottom | u/d: page | 'c' clear hits | [{self.runtime_subpages[self.current_runtime_subpage]}]"
+                elif self.current_runtime_subpage == 2:  # Backends
+                    footer += f" | Tab: sub-pages | j/k: scroll | g/G: top/bottom | u/d: page | 'c' clear stats | [{self.runtime_subpages[self.current_runtime_subpage]}]"
+                else:
+                    footer += f" | Tab: sub-pages | j/k: scroll | g/G: top/bottom | u/d: page | [{self.runtime_subpages[self.current_runtime_subpage]}]"
             elif self.current_page == 2:  # Slow queries page (now page 2)
                 footer += " | 'f' toggle view"
             elif self.current_page == 3:  # Query patterns page (now page 3)
@@ -3490,8 +3496,8 @@ class ProxySQLMonitor:
                         UserConfig.Pages.SlowQueries.COMPACT_DISPLAY = not UserConfig.Pages.SlowQueries.COMPACT_DISPLAY
                         force_redraw = True
                 elif key == ord('c') or key == ord('C'):
-                    # Clear stats based on current page
-                    if self.current_page == 3:  # Backend servers page
+                    # Clear stats based on current page/sub-page
+                    if self.current_page == 1 and self.current_runtime_subpage == 2:  # Backends sub-page
                         if self.show_confirmation_dialog(stdscr, "Clear backend query and error statistics?", "CLEAR BACKEND STATS"):
                             # Clear backend connection pool stats - use reset table
                             self.get_mysql_data("SELECT * FROM stats_mysql_connection_pool_reset LIMIT 1")
@@ -3499,15 +3505,15 @@ class ProxySQLMonitor:
                             self.get_mysql_data("SELECT * FROM stats_mysql_errors_reset LIMIT 1")
                             self.fetch_data()
                             force_redraw = True
-                    elif self.current_page == 5:  # Query patterns page
-                        if self.show_confirmation_dialog(stdscr, "Clear query digest statistics?", "CLEAR QUERY PATTERNS"):
-                            self.get_mysql_data("SELECT * FROM stats_mysql_query_digest_reset LIMIT 1")
-                            self.fetch_data()
-                            force_redraw = True
-                    elif self.current_page == 6:  # Query rules page
+                    elif self.current_page == 1 and self.current_runtime_subpage == 1:  # Rules sub-page
                         if self.show_confirmation_dialog(stdscr, "WARNING: This will reload ALL query rules to runtime! Only way to clear hits. Continue?", "RELOAD QUERY RULES"):
                             # Only way to clear hit stats is to reload query rules to runtime
                             self.get_mysql_data("LOAD MYSQL QUERY RULES TO RUNTIME")
+                            self.fetch_data()
+                            force_redraw = True
+                    elif self.current_page == 3:  # Query patterns page (now page 3)
+                        if self.show_confirmation_dialog(stdscr, "Clear query digest statistics?", "CLEAR QUERY PATTERNS"):
+                            self.get_mysql_data("SELECT * FROM stats_mysql_query_digest_reset LIMIT 1")
                             self.fetch_data()
                             force_redraw = True
                 elif key == 9:  # Tab key
@@ -3690,4 +3696,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
