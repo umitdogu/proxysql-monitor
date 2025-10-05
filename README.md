@@ -62,12 +62,6 @@ Navigate with `Tab`, scroll with `j/k`, filter with `/` - it just works.
 | **5. Logs** | Live log streaming | Auto-scroll with filtering (E/W/I/D) |
 | **6. Performance** | QPS & metrics | 2-minute trend graphs |
 
-### 🎨 **Modern UI**
-- **5-line dynamic footer** with page-specific stats and legends
-- **Clean sub-page navigation** with cyan highlights
-- **Intelligent activity indicators**: 🔥 HIGH | 🟡 MEDIUM | 🟢 LOW | ⚪ IDLE | ⚫ NO-CONN
-- **Auto-refresh every 2 seconds** - always up-to-date
-
 ## 🎮 Navigation Cheat Sheet
 
 ```
