@@ -119,26 +119,6 @@ mysql -h your-proxysql-host -P 6032 -e "SELECT 1"
 - **MySQL client** (`mysql` command)
 - Terminal with 256 colors (120x30 minimum)
 
-## 🎯 Why Use This?
-
-### For DevOps/SRE Teams
-✅ Instant visibility into ProxySQL health  
-✅ Identify slow queries before users complain  
-✅ Debug connection issues in real-time  
-✅ No web server, no dependencies, just works
-
-### For DBAs
-✅ Monitor backend server health  
-✅ Analyze query patterns for optimization  
-✅ Track routing rules and load distribution  
-✅ Review configuration changes instantly
-
-### For Developers
-✅ Debug connection issues during development  
-✅ Identify N+1 query problems  
-✅ Optimize frequently-run queries  
-✅ Understand database usage patterns
-
 ## 🛠️ Troubleshooting
 
 ### No data showing?
@@ -149,11 +129,6 @@ mysql -h proxysql-host -P 6032 -e "SHOW TABLES"
 # Check ProxySQL is running
 systemctl status proxysql
 ```
-
-### Filter not working?
-- Press `/` (forward slash) to activate
-- Type immediately - no Enter needed
-- Press `ESC` to clear
 
 ### Need more help?
 Check that your ProxySQL user has `SELECT` permissions on:
