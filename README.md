@@ -45,7 +45,7 @@ View ProxySQL runtime configuration:
 - **Users** - ProxySQL user configuration
 - **Backends** - Server configuration (GTID port, compression, max connections, replication lag, SSL, max latency)
 - **MySQL Variables** - MySQL variable settings
-- **Admin Variables** - Admin variable settings  
+- **Admin Variables** - Admin variable settings
 - **Runtime Stats** - Global statistics
 - **Hostgroups** - Hostgroup configuration
 
@@ -85,22 +85,24 @@ cd proxysql-monitor
 ```python
 class Database:
     CONNECTION_METHOD = 'tcp'  # or 'socket'
-    
+
     # Authentication (required for both TCP and socket)
     USER = 'proxysql-admin'
     PASSWORD = 'your-password'
-    
+
     # TCP/IP settings (when CONNECTION_METHOD = 'tcp')
     HOST = 'localhost'
     PORT = 6032
-    
+
     # Unix socket settings (when CONNECTION_METHOD = 'socket')
     SOCKET_FILE = '/tmp/proxysql_admin.sock'
 ```
 
 3. Run the monitor:
 ```bash
-python proxysql_monitor.py
+python3 proxysql-monitor.py
+# or
+./proxysql-monitor.py
 ```
 
 ## Usage
@@ -124,7 +126,7 @@ Press `/` to enter filter mode and type to search across all visible data using 
 
 ### Clear Statistics
 Press `c` on supported pages to clear statistics:
-- **Backend**: Clears connection pool and error statistics  
+- **Backend**: Clears connection pool and error statistics
 - **Runtime → Query Rules**: Reloads query rules (only way to clear hit counters)
 - **Runtime → Backends**: Clears backend statistics
 - **Frontend → Query Patterns**: Clears query digest statistics
@@ -149,7 +151,7 @@ class Thresholds:
     CONNECTIONS_LOW = 10      # Light activity
     CONNECTIONS_MEDIUM = 50   # Moderate activity
     CONNECTIONS_HIGH = 100    # High activity
-    
+
     QPS_LOW = 100
     QPS_MEDIUM = 1000
     QPS_HIGH = 5000
