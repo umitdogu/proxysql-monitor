@@ -78,7 +78,7 @@ Real-time ProxySQL log monitoring
 1. Clone the repository:
 ```bash
 git clone https://github.com/umitdogu/proxysql-monitor
-cd proxysql-monitor-refactor
+cd proxysql-monitor
 ```
 
 2. Configure connection settings in `config/user_config.py`:
@@ -164,7 +164,7 @@ class Filters:
 ## Project Structure
 
 ```
-proxysql-monitor-refactor/
+proxysql-monitor/
 ├── proxysql_monitor.py          # Main entry point
 ├── config/
 │   ├── user_config.py           # User settings
@@ -214,11 +214,11 @@ proxysql-monitor-refactor/
 
 **Unlicense** - Use freely for your infrastructure monitoring.
 
-This is free and unencumbered software released into the public domain. See LICENSE file for full details.
+This is free and unencumbered software released into the public domain. See the LICENSE file for full details.
 
 ## 👨‍💻 Author
 
 **Ümit Dogu** - DevOps Engineer
 
-Built for production ProxySQL monitoring.
+Built for real-time ProxySQL monitoring.
 
