@@ -1,0 +1,12 @@
+# ProxySQL Monitor - Requirements
+# 
+# This project uses only Python standard library modules.
+# No external Python packages are required.
+#
+# Python version: 3.6+
+#
+# System requirements:
+# - mysql command-line client (mysql-client or mariadb-client package)
+# - tail command (standard on Unix/Linux systems)
+# - dig command (optional, for reverse DNS resolution of IP addresses)
+

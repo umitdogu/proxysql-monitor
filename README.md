@@ -1,157 +1,224 @@
-```
-██████╗ ██████╗  ██████╗ ██╗  ██╗██╗   ██╗███████╗ ██████╗ ██╗     
-██╔══██╗██╔══██╗██╔═══██╗╚██╗██╔╝╚██╗ ██╔╝██╔════╝██╔═══██╗██║     
-██████╔╝██████╔╝██║   ██║ ╚███╔╝  ╚████╔╝ ███████╗██║   ██║██║     
-██╔═══╝ ██╔══██╗██║   ██║ ██╔██╗   ╚██╔╝  ╚════██║██║▄▄ ██║██║     
-██║     ██║  ██║╚██████╔╝██╔╝ ██╗   ██║   ███████║╚██████╔╝███████╗
-╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚══════╝ ╚══▀▀═╝ ╚══════╝
-                                                                    
-███╗   ███╗ ██████╗ ███╗   ██╗██╗████████╗ ██████╗ ██████╗         
-████╗ ████║██╔═══██╗████╗  ██║██║╚══██╔══╝██╔═══██╗██╔══██╗        
-██╔████╔██║██║   ██║██╔██╗ ██║██║   ██║   ██║   ██║██████╔╝        
-██║╚██╔╝██║██║   ██║██║╚██╗██║██║   ██║   ██║   ██║██╔══██╗        
-██║ ╚═╝ ██║╚██████╔╝██║ ╚████║██║   ██║   ╚██████╔╝██║  ██║        
-╚═╝     ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚═╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝        
-```
+# ProxySQL Monitor - Enhanced Analytics
 
-# 📊 ProxySQL Monitor
+A powerful, real-time monitoring dashboard for ProxySQL with advanced analytics, beautiful UI, and comprehensive metrics tracking.
 
-[![Python](https://img.shields.io/badge/Python-3.6%2B-blue?logo=python)](https://www.python.org/)
-[![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
-[![ProxySQL](https://img.shields.io/badge/ProxySQL-Compatible-orange)](https://proxysql.com/)
+## Features
 
-> **A powerful real-time monitoring dashboard for ProxySQL.** Clean terminal UI with fuzzy search, vim-style navigation, and intelligent sub-pages. Built for DevOps professionals who need instant insights.
+### Real-Time Monitoring
+- **Auto-refresh**: Updates every 1 second (configurable via `REFRESH_INTERVAL`)
+- Live QPS (Queries Per Second) tracking with trend indicators
+- Connection monitoring with active/idle breakdown
+- Backend server health and performance metrics
+- Query pattern analysis and digest statistics
+- Slow query detection and tracking
 
-## ⚡ Quick Start
+### Beautiful Terminal UI
+- Modern, clean interface with color-coded status indicators
+- Smart header with system status at a glance
+- Context-aware footer with dynamic help text
+- Fuzzy filtering (fzf-style) across all data
+- Smooth scrolling and optimized rendering (~60 FPS)
 
+### Multiple Views
+
+#### 1. **Frontend** (Client-Side Monitoring)
+Monitor all client interactions with ProxySQL:
+- **Connections: User&Host** - Detailed connection breakdown by user and host
+- **Connections: By User** - Aggregated view by database user
+- **Connections: By Host** - Aggregated view by client host/IP
+- **Queries: Slow Queries** - Track slow-running queries (configurable threshold)
+- **Queries: Patterns** - Query digest analysis and statistics
+
+#### 2. **Backend** (Server-Side Monitoring)
+Unified view of all ProxySQL backend servers:
+- **Columns**: HG, Server, Port, Status, Weight, Connections (active/total), Clients (unique hosts), Load%, Queries, Errors, Latency, Bytes Sent/Received (GB/MB)
+- Server health status with activity indicators: `ONLINE [○]` format
+- Connection pool usage with activity levels (Quiet, Idle, Light, Moderate, Busy)
+- **Clients**: Count of unique client hosts (from `cli_host` in processlist)
+- Real-time query load distribution (% per server)
+- Network traffic monitoring (bytes sent/received in GB/MB)
+- Color-coded by connection activity for ONLINE servers, red for OFFLINE/SHUNNED
+
+#### 3. **Runtime** (Configuration)
+View ProxySQL runtime configuration:
+- **Query Rules** - Routing rules and hit statistics
+- **Users** - ProxySQL user configuration
+- **Backends** - Server configuration (GTID port, compression, max connections, replication lag, SSL, max latency)
+- **MySQL Variables** - MySQL variable settings
+- **Admin Variables** - Admin variable settings  
+- **Runtime Stats** - Global statistics
+- **Hostgroups** - Hostgroup configuration
+
+#### 4. **Performance** (System Metrics)
+System-wide performance overview:
+- Real-time QPS and connection trends
+- Side-by-side performance graphs
+- Key metrics dashboard
+
+#### 5. **Logs** (Debug)
+Real-time ProxySQL log monitoring
+
+### Advanced Features
+- **Clear Statistics** - Reset backend, rule, and pattern stats with confirmation
+- **PTR Resolution** - Automatic reverse DNS lookup for IP addresses
+- **Dynamic Column Width** - Intelligent column sizing based on content
+- **Socket Connection** - Connect via Unix socket or TCP
+- **Activity Indicators** - Smart status symbols (Quiet, Idle, Light, Moderate, Busy)
+- **Version Display** - Shows ProxySQL version in header
+
+## Installation
+
+### Requirements
+- Python 3.6 or higher
+- ProxySQL server (tested with 2.x and 3.x)
+- MySQL command-line client (`mysql-client` or `mariadb-client` package)
+
+### Setup
+
+1. Clone the repository:
 ```bash
-git clone https://github.com/umitdogu/proxysql-monitor.git
-cd proxysql-monitor
-chmod +x proxysql-monitor.py
-./proxysql-monitor.py
+git clone https://github.com/umitdogu/proxysql-monitor
+cd proxysql-monitor-refactor
 ```
 
-**That's it!** No dependencies, no setup, just works. 🚀
-
-## ✨ Key Features
-
-### 🔍 **Fuzzy Search (FZF-Style)**
-Press `/` and start typing - instant filtering across all pages. Searches everything including resolved hostnames.
-
-### 📑 **Smart Sub-Pages**
-- **Connections**: By User&Host | By User | By Host
-- **Runtime Config**: Users | Rules | Backends | MySQL Vars | Admin Vars | Stats | Hostgroups
-
-Navigate with `Tab`, scroll with `j/k`, filter with `/` - it just works.
-
-### ⌨️ **Vim-Style Navigation**
-- `j/k` - Scroll line by line
-- `g/G` - Jump to top/bottom
-- `u/d` - Page up/down
-- `/` - Fuzzy search (real-time!)
-- `ESC` - Clear filter
-
-### 🎯 **6 Powerful Pages**
-
-| Page | What It Shows | Key Feature |
-|------|---------------|-------------|
-| **1. Connections** | Live connections by user/host | 🔥 Activity indicators (HIGH/MEDIUM/LOW) |
-| **2. Runtime Config** | ProxySQL configuration | 7 sub-pages with full config details |
-| **3. Slow Queries** | Performance bottlenecks | Real-time slow query detection |
-| **4. Patterns** | Query analysis | Top 30 resource consumers |
-| **5. Logs** | Live log streaming | Auto-scroll with filtering (E/W/I/D) |
-| **6. Performance** | QPS & metrics | 2-minute trend graphs |
-
-## 🎮 Navigation Cheat Sheet
-
-```
-Main:        1-6 or ←/→     Jump pages
-Sub-pages:   Tab/Shift+Tab  Switch sub-pages
-Scroll:      j/k or ↑/↓     Line by line
-Jump:        g/G            Top/Bottom
-Search:      /              Fuzzy filter (real-time)
-Exit:        q              Quit
-Refresh:     r              Force refresh
-```
-
-## ⚙️ Configuration
-
-### Quick Setup (Choose One):
-
-**Option 1: Direct credentials** (edit script):
+2. Configure connection settings in `config/user_config.py`:
 ```python
 class Database:
-    HOST = 'your-proxysql-host'
-    PORT = 6032
-    USER = 'admin'
+    CONNECTION_METHOD = 'tcp'  # or 'socket'
+    
+    # Authentication (required for both TCP and socket)
+    USER = 'proxysql-admin'
     PASSWORD = 'your-password'
+    
+    # TCP/IP settings (when CONNECTION_METHOD = 'tcp')
+    HOST = 'localhost'
+    PORT = 6032
+    
+    # Unix socket settings (when CONNECTION_METHOD = 'socket')
+    SOCKET_FILE = '/tmp/proxysql_admin.sock'
 ```
 
-**Option 2: MySQL config file** (`~/.my.cnf`):
-```ini
-[proxysql]
-host=your-proxysql-host
-port=6032
-user=admin
-password=your-password
-```
-
-**Option 3: MySQL login-path** (most secure):
+3. Run the monitor:
 ```bash
-mysql_config_editor set --login-path=proxysql --host=your-host --port=6032 --user=admin --password
+python proxysql_monitor.py
 ```
 
-### Test Connection:
-```bash
-mysql -h your-proxysql-host -P 6032 -e "SELECT 1"
+## Usage
+
+### Keyboard Shortcuts
+
+| Key | Action |
+|-----|--------|
+| `←` / `→` | Navigate between main pages |
+| `1-5` | Jump to specific page (1=Frontend, 2=Backend, 3=Runtime, 4=Performance, 5=Logs) |
+| `Tab` | Switch between sub-pages (Frontend/Runtime) |
+| `j` / `k` or `↑` / `↓` | Scroll down / up |
+| `/` | Enter filter mode (fuzzy search) |
+| `ESC` | Clear filter / Cancel |
+| `r` | Refresh data manually |
+| `c` | Clear statistics (Backend, Runtime, Frontend Patterns) |
+| `q` | Quit |
+
+### Filter Mode
+Press `/` to enter filter mode and type to search across all visible data using fuzzy matching.
+
+### Clear Statistics
+Press `c` on supported pages to clear statistics:
+- **Backend**: Clears connection pool and error statistics  
+- **Runtime → Query Rules**: Reloads query rules (only way to clear hit counters)
+- **Runtime → Backends**: Clears backend statistics
+- **Frontend → Query Patterns**: Clears query digest statistics
+
+All clear operations require confirmation.
+
+## Configuration
+
+Edit `config/user_config.py` to customize:
+
+### Connection Settings
+- **Connection Method**: `'tcp'` or `'socket'`
+- **Authentication**: Username and password (required for both methods)
+- **TCP Settings**: Host and port (for TCP/IP connections)
+- **Socket Settings**: Socket file path (for Unix socket connections)
+
+**Note**: ProxySQL requires authentication even when connecting via Unix socket.
+
+### Thresholds
+```python
+class Thresholds:
+    CONNECTIONS_LOW = 10      # Light activity
+    CONNECTIONS_MEDIUM = 50   # Moderate activity
+    CONNECTIONS_HIGH = 100    # High activity
+    
+    QPS_LOW = 100
+    QPS_MEDIUM = 1000
+    QPS_HIGH = 5000
 ```
 
-## 📋 Requirements
-
-- **Python 3.6+** (no external dependencies!)
-- **ProxySQL** with admin access (port 6032)
-- **MySQL client** (`mysql` command)
-- Terminal with 256 colors (120x30 minimum)
-
-## 🛠️ Troubleshooting
-
-### No data showing?
-```bash
-# Test ProxySQL admin access
-mysql -h proxysql-host -P 6032 -e "SHOW TABLES"
-
-# Check ProxySQL is running
-systemctl status proxysql
+### Filters
+```python
+class Filters:
+    EXCLUDED_USERS = ['monitor', 'admin']
 ```
 
-### Need more help?
-Check that your ProxySQL user has `SELECT` permissions on:
-- `stats_mysql_*` tables
-- `runtime_mysql_*` tables
+## Project Structure
 
-## 🏗️ Architecture
+```
+proxysql-monitor-refactor/
+├── proxysql_monitor.py          # Main entry point
+├── config/
+│   ├── user_config.py           # User settings
+│   └── internal_config.py       # Internal config
+├── core/
+│   ├── database.py              # Database connection
+│   └── monitor.py               # Monitor orchestration
+├── pages/
+│   ├── connections_page.py      # Connections view
+│   ├── runtime_page.py          # Runtime view
+│   ├── slow_queries_page.py     # Slow queries view
+│   ├── patterns_page.py         # Query patterns view
+│   ├── logs_page.py             # Logs view
+│   └── performance_page.py      # Performance view
+└── utils/
+    ├── ui_utils.py              # UI utilities
+    ├── activity_analyzer.py     # Activity analysis
+    ├── graph_utils.py           # ASCII graphs
+    └── network_utils.py         # Network utilities
+```
 
-- **Zero dependencies** - Pure Python 3.6+
-- **Lightweight** - ~50MB RAM, <2% CPU
-- **Fast** - 2-second auto-refresh with smart caching
-- **Secure** - Read-only access, no data storage
-- **Scalable** - Handles 1000+ connections smoothly
+## Status Indicators
+
+### Connection Status
+- `[○ Quiet]` - No connections
+- `[◐ Idle]` - Connections ready but not active
+- `[◑ Light]` - Low activity (< 10 active)
+- `[◕ Moderate]` - Medium activity (10-49 active)
+- `[● Busy]` - High activity (50-99 active)
+- `[● Saturated]` - Very high activity (100+ active)
+
+### Hit Rate Status (Query Rules)
+- `[○ Silent]` - No hits
+- `[◑ Light]` - < 1K hits/sec
+- `[◕ Moderate]` - 1K-10K hits/sec
+- `[● Busy]` - 10K-100K hits/sec
+- `[🔥 Hot]` - 100K+ hits/sec
+
+## Performance
+
+- Optimized rendering at ~60 FPS
+- Non-blocking input with 50ms timeout
+- Smart column width calculation
+- Lightweight monitoring (2-second refresh)
 
 ## 📝 License
 
-MIT License - Use freely for your infrastructure monitoring.
+**Unlicense** - Use freely for your infrastructure monitoring.
+
+This is free and unencumbered software released into the public domain. See LICENSE file for full details.
 
 ## 👨‍💻 Author
 
-**Ümit Dogu** - DevOps Engineer  
+**Ümit Dogu** - DevOps Engineer
+
 Built for production ProxySQL monitoring.
 
-🌟 **Star this repo** if you find it useful!  
-🐛 **Report issues** on [GitHub Issues](https://github.com/umitdogu/proxysql-monitor/issues)  
-🤝 **Contributions welcome** - PRs accepted!
-
----
-
-**Made with ❤️ for the DevOps community**
-
-*Perfect for teams managing ProxySQL in production. Essential monitoring without the complexity.*
