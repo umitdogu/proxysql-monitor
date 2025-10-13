@@ -2,6 +2,9 @@
 
 A powerful, real-time monitoring dashboard for ProxySQL with advanced analytics, beautiful UI, and comprehensive metrics tracking.
 
+![image1](https://github.com/user-attachments/assets/733a33cf-02f0-47b8-a421-669669bb280b)
+
+
 ## Features
 
 ### Real-Time Monitoring
